@@ -1,24 +1,5 @@
-# README
+# hello-rails-on-k8s
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+k8s の勉強
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Rails を k8s 環境で動かす

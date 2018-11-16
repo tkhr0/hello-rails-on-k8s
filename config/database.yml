@@ -15,11 +15,12 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
   password:
-  host: localhost
+  host: <%= ENV.fetch("DB_HOST") { 'localhost' }  %>
 
 development:
   <<: *default
   database: hello-rails-on-k8s_development
+  protocol: TCP
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

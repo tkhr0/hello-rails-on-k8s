@@ -42,3 +42,6 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 3000
+          env:
+            - name: DB_HOST
+              value: dbserver-service.default.svc.cluster.local

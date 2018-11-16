@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dbserver-deployment
+  labels:
+    app: hello-rails-on-k8s
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-rails-on-k8s
+      server: db
+  template:
+    metadata:
+      labels:
+        app: hello-rails-on-k8s
+        server: db
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:5.7
+          env:
+          - name: MYSQL_ALLOW_EMPTY_PASSWORD
+            value: "true"
+          - name: MYSQL_DATABASE
+            value: hello-rails-on-k8s_development
+          ports:
+            - containerPort: 3306

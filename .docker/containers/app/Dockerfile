@@ -41,8 +41,6 @@ RUN rm -r /var/lib/apt/lists/*
 
 WORKDIR /myapp
 
-EXPOSE 3000
-
 ## add
 ### bundle
 COPY Gemfile  .

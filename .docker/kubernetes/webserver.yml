@@ -35,12 +35,19 @@ spec:
         app: hello-rails-on-k8s
         server: web
     spec:
+      volumes:
+        - name: sockets
+          emptyDir: {}
       containers:
         - name: nginx
           image: hello-rails-on-k8s-nginx:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 80
+          volumeMounts:
+            - mountPath: /sockets
+              name: sockets
+
         - name: rails
           image: hello-rails-on-k8s-app:latest
           # デフォルトで pull しにいってコケるので Never させないようにする
@@ -48,3 +55,6 @@ spec:
           env:
             - name: DB_HOST
               value: dbserver-service.default.svc.cluster.local
+          volumeMounts:
+            - mountPath: /sockets
+              name: sockets

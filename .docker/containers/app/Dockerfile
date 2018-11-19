@@ -44,7 +44,13 @@ WORKDIR /myapp
 EXPOSE 3000
 
 ## add
-COPY . .
+### bundle
+COPY Gemfile  .
+COPY Gemfile.lock .
+COPY yarn.lock .
+COPY package.json .
 RUN bundle install
 RUN yarn install
+
+COPY . .
 CMD bundle exec rails server

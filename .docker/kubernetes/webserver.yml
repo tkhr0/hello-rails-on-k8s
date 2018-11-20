@@ -16,7 +16,7 @@ spec:
       # 受信するポート
       port: 84
       # 送信するポート
-      targetPort: 8080
+      targetPort: http
 
 ---
 apiVersion: apps/v1
@@ -47,7 +47,8 @@ spec:
           imagePullPolicy: Never
           ports:
             # service から受けるポート
-            - containerPort: 8080
+            - name: http
+              containerPort: 8080
           volumeMounts:
             - mountPath: /sockets
               name: sockets

@@ -4,8 +4,8 @@ metadata:
   name: webserver-service
 
 spec:
-  # node の外とをつなぐ
-  type: NodePort
+  # ingress 経由なのでクラスタ内に閉じておく
+  type: ClusterIP
   selector:
     # これにマッチした pod に流す
     app: hello-rails-on-k8s
@@ -13,7 +13,10 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      port: 80
+      # 受信するポート
+      port: 84
+      # 送信するポート
+      targetPort: 8080
 
 ---
 apiVersion: apps/v1
@@ -43,7 +46,8 @@ spec:
           image: hello-rails-on-k8s-nginx:latest
           imagePullPolicy: Never
           ports:
-            - containerPort: 80
+            # service から受けるポート
+            - containerPort: 8080
           volumeMounts:
             - mountPath: /sockets
               name: sockets

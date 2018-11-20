@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: hello-rails-on-k8s-ingress
+spec:
+  rules:
+  - host: hello-rails-on-k8s.local
+    http:
+      paths:
+      - path: /
+        backend:
+          # どのサービスのどのポートに流すか
+          serviceName: webserver-service
+          servicePort: 84

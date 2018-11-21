@@ -1,0 +1,7 @@
+hello!
+
+request to rails application
+$ curl http://localhost -H "Host: {{ .Values.ingress.host }}"
+
+with open in chrome
+$ curl http://localhost -H "Host: {{ .Values.ingress.host }}" > ~/Desktop/index.html && open -a Google\ Chrome\ Canary ~/Desktop/index.html

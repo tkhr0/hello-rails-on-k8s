@@ -1,0 +1,31 @@
+web:
+  name: nginx
+  image:
+    repository: hello-rails-on-k8s-nginx
+    tag: latest
+    pullPolicy: Never
+  port:
+    http: 8080
+    https: 4330
+
+app:
+  name: rails
+  image:
+    repository: hello-rails-on-k8s-app
+    tag: latest
+    pullPolicy: Never
+  dbHost: hello-rails-on-k8s-db
+
+db:
+  name: mysql
+  image:
+    repository: mysql
+    tag: 5.6
+    pullPolicy: Never
+  port: 3306
+  env:
+    mysqlRootPassword: false
+    mysqlDatabase: hello-rails-on-k8s_development
+
+ingress:
+  host: hello-rails-on-k8s.local

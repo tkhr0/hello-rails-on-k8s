@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  # name で名前解決できる
+  name: {{ include "hello-rails-on-k8s.fullname" . }}-db
+  labels:
+    app.kubernetes.io/name: {{ include "hello-rails-on-k8s.name" . }}-db
+    helm.sh/chart: {{ include "hello-rails-on-k8s.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: database
+
+spec:
+  # クラスタ上に公開
+  type: ClusterIP
+  selector:
+    # これにマッチした pod に流す
+    app.kubernetes.io/name: {{ include "hello-rails-on-k8s.name" . }}-db
+    helm.sh/chart: {{ include "hello-rails-on-k8s.chart" . }}
+    app.kubernetes.io/component: database
+  ports:
+    - port: 3306
+      targetPort: mysql

@@ -1,53 +1,32 @@
-FROM ruby:2.5.3-stretch
+FROM ruby:2.6.1-slim-stretch
 
-ENV DEBIAN_FRONTEND noninteractive
-ENV LANG C.UTF-8
-
+# 基本的なパッケージのインストール
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      apt-file \
       build-essential \
-      git \
-      zlib1g-dev \
-      libssl-dev \
-      libreadline-dev \
-      libyaml-dev \
-      libxml2-dev \
-      libxslt-dev \
+      curl \
+      gnupg gnupg1 gnupg2 \
+      imagemagick \
+      default-libmysqlclient-dev \
       vim \
       less
 
-RUN apt-file update \
- && apt-get install -y --no-install-recommends software-properties-common
-
-RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 40976EAF437D05B5 3B4FE6ACC0B21F32 \
- && add-apt-repository 'deb http://archive.ubuntu.com/ubuntu trusty universe' \
+# Node.js と Yarn をインストールして不要なファイルを autoremove / clean で削除
+RUN curl -sSL https://deb.nodesource.com/setup_10.x | bash - \
+ && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+ && echo deb https://dl.yarnpkg.com/debian/ stable main | tee /etc/apt/sources.list.d/yarn.list \
  && apt-get update \
- && apt-get install -y --no-install-recommends --allow-downgrades mysql-client-5.6
-
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
- && apt-get install -y --no-install-recommends nodejs
-
-RUN wget https://github.com/yarnpkg/yarn/releases/download/v1.7.0/yarn_1.7.0_all.deb \
- && dpkg -i yarn_1.7.0_all.deb
-
-RUN ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
- && echo 'UTC=no' > /etc/default/rcS
-
-RUN mkdir -p /root/.ssh
-
-RUN apt-get clean
-RUN rm -r /var/lib/apt/lists/*
+ && apt-get install -y --no-install-recommends nodejs yarn \
+ && apt-get clean
 
 WORKDIR /myapp
 
-## add
-### bundle
 COPY Gemfile  .
 COPY Gemfile.lock .
-COPY yarn.lock .
-COPY package.json .
 RUN bundle install
+
+COPY package.json .
+COPY yarn.lock .
 RUN yarn install
 
 COPY . .

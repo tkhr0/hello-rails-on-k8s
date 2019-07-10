@@ -14,8 +14,8 @@ https://github.com/helm/helm
 クラスタ外からの HTTP リクエストを Service にルーティングするために [nginx_ingress_controller](https://github.com/kubernetes/ingress-nginx/) をデプロイしておく
 
 ```bash
-$ kubectl -f apply https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.16.2/deploy/mandatory.yaml
-$ kubectl -f apply https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.16.2/deploy/provider/cloud-generic.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.16.2/deploy/mandatory.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.16.2/deploy/provider/cloud-generic.yaml
 ```
 
 Check deployed services and pods
